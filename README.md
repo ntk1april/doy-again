@@ -1,36 +1,297 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Stock Portfolio Tracker
 
-## Getting Started
+A full-stack web application for tracking your stock portfolio with real-time prices, profit/loss calculations, and transaction history. Built with Next.js, TypeScript, MongoDB, and modern authentication.
 
-First, run the development server:
+## ✨ Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### 📊 Portfolio Management
+- **Real-time Stock Prices** - Integration with Finnhub and Alpha Vantage APIs
+- **Profit/Loss Tracking** - Automatic calculation of realized and unrealized P/L
+- **Portfolio Summary** - Overview of total investment, current value, and net P/L
+- **Stock Logos** - Visual identification with automatic 2-letter fallback
+
+### 💼 Transaction Management
+- **Buy/Sell Stocks** - Easy interface for managing your positions
+- **Transaction History** - Complete record of all trades
+- **Time Filters** - View transactions by day, week, month, or all time
+- **Realized P/L Tracking** - See profits/losses from completed trades
+
+### 🔐 User Authentication
+- **Secure Sign Up/Sign In** - JWT-based authentication
+- **Password Security** - Bcrypt hashing with validation requirements
+- **Personal Data Isolation** - Each user has their own private portfolio
+- **Session Management** - 7-day token expiration with auto-logout
+
+### 🎨 Modern UI/UX
+- **Responsive Design** - Works on desktop, tablet, and mobile
+- **Beautiful Gradients** - Modern blue gradient backgrounds
+- **Interactive Elements** - Hover effects and smooth transitions
+- **Stock Logos** - Visual branding with automatic fallbacks
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **Node.js** 18+ and npm
+- **MongoDB** (Local or Atlas)
+- **API Keys** (Optional but recommended):
+  - Finnhub API key (for real-time prices)
+  - Alpha Vantage API key (for fallback)
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <your-repo-url>
+   cd doy-again
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables**
+   
+   Create a `.env.local` file in the root directory:
+   ```env
+   # MongoDB Connection (Local or Atlas)
+   MONGODB_URI=mongodb://localhost:27017/doy-again
+   # OR for MongoDB Atlas:
+   # MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/doy-again?retryWrites=true&w=majority
+   
+   # JWT Secret (REQUIRED - Change this!)
+   JWT_SECRET=your-super-secret-jwt-key-min-32-characters-long
+   
+   # Stock Data APIs (At least one recommended)
+   FINNHUB_API_KEY=your_finnhub_api_key_here
+   ALPHAVANTAGE_API_KEY=your_alphavantage_api_key_here
+   ```
+
+4. **Get API Keys (Optional)**
+   
+   **Finnhub (Recommended - Primary API):**
+   - Visit: https://finnhub.io/register
+   - Free tier: 60 calls/minute
+   - Fast and reliable
+   
+   **Alpha Vantage (Fallback API):**
+   - Visit: https://www.alphavantage.co/support/#api-key
+   - Free tier: 5 calls/minute, 500/day
+   - Automatic fallback if Finnhub fails
+
+5. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+6. **Open your browser**
+   
+   Navigate to [http://localhost:3000](http://localhost:3000)
+
+## 📖 Usage
+
+### First Time Setup
+
+1. **Create an Account**
+   - Click "Sign Up" on the sign-in page
+   - Enter your name, email, and password
+   - Password must be at least 8 characters with 1 uppercase, 1 lowercase, and 1 number
+
+2. **Add Your First Stock**
+   - Click "+ Add Stock" button
+   - Search for a stock symbol (e.g., AAPL, MSFT, NVDA)
+   - Enter the number of units and purchase price
+   - Click "Add Stock"
+
+3. **View Your Portfolio**
+   - See all your stocks with real-time prices
+   - View total cost, current value, and profit/loss
+   - Track unrealized and realized P/L
+
+### Managing Stocks
+
+**Buy More:**
+- Click "Edit" on any stock
+- Select "Buy More"
+- Enter units and price
+- Average price is automatically recalculated
+
+**Sell Stocks:**
+- Click "Edit" on any stock
+- Select "Sell"
+- Enter units and sale price
+- Realized P/L is automatically calculated
+
+**View Transaction History:**
+- Click "📊 View History" button
+- Filter by time period (Day, Week, Month, All Time)
+- See all buy/sell transactions with P/L
+
+## 🏗️ Tech Stack
+
+### Frontend
+- **Next.js 16** - React framework with App Router
+- **TypeScript** - Type-safe development
+- **Tailwind CSS** - Utility-first styling
+- **React Context** - Global state management
+
+### Backend
+- **Next.js API Routes** - Serverless API endpoints
+- **MongoDB** - NoSQL database
+- **Mongoose** - MongoDB ODM
+- **JWT** - JSON Web Tokens for authentication
+- **Bcrypt** - Password hashing
+
+### External APIs
+- **Finnhub** - Primary stock data API
+- **Alpha Vantage** - Fallback stock data API
+- **Financial Modeling Prep** - Stock logos CDN
+
+## 📁 Project Structure
+
+```
+doy-again/
+├── src/
+│   ├── app/                      # Next.js App Router
+│   │   ├── api/                  # API routes
+│   │   │   ├── auth/             # Authentication endpoints
+│   │   │   │   ├── signin/       # Sign in
+│   │   │   │   └── signup/       # Sign up
+│   │   │   ├── portfolio/        # Portfolio endpoints
+│   │   │   │   ├── stocks/       # Stock CRUD operations
+│   │   │   │   └── transactions/ # Transaction history
+│   │   │   └── search-stocks/    # Stock search autocomplete
+│   │   ├── portfolio/            # Portfolio pages
+│   │   │   ├── add/              # Add stock page
+│   │   │   ├── edit/[symbol]/    # Edit stock page
+│   │   │   └── history/          # Transaction history page
+│   │   ├── signin/               # Sign in page
+│   │   ├── signup/               # Sign up page
+│   │   └── page.tsx              # Home page (redirects)
+│   ├── components/               # React components
+│   │   ├── PortfolioTable.tsx    # Stock list table
+│   │   ├── PortfolioSummary.tsx  # Portfolio overview
+│   │   ├── StockForm.tsx         # Stock input form
+│   │   ├── StockLogo.tsx         # Logo with fallback
+│   │   └── ProtectedRoute.tsx    # Auth wrapper
+│   ├── contexts/                 # React contexts
+│   │   └── AuthContext.tsx       # Authentication state
+│   ├── lib/                      # Utilities and configs
+│   │   ├── auth/                 # Auth utilities
+│   │   │   ├── middleware.ts     # JWT validation
+│   │   │   └── utils.ts          # Password hashing, etc.
+│   │   ├── db/                   # Database
+│   │   │   ├── connection.ts     # MongoDB connection
+│   │   │   ├── models.ts         # Stock & Transaction models
+│   │   │   └── userModel.ts      # User model
+│   │   └── utils/                # Helper functions
+│   │       ├── auth-fetch.ts     # Authenticated fetch
+│   │       ├── calculations.ts   # P/L calculations
+│   │       ├── logos.ts          # Logo URLs
+│   │       └── realPrices.ts     # Stock price fetching
+│   └── types/                    # TypeScript types
+│       └── index.ts              # Shared interfaces
+├── .env.local                    # Environment variables (create this)
+├── .env.example                  # Environment template
+└── package.json                  # Dependencies
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔒 Security Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Password Hashing** - Bcrypt with salt rounds
+- **JWT Authentication** - Secure token-based auth
+- **Password Validation** - Enforced complexity requirements
+- **Data Isolation** - User-specific database queries
+- **Protected Routes** - Authentication required for portfolio pages
+- **Secure API Endpoints** - Token validation on all protected routes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🧮 Calculations
 
-## Learn More
+### Average Price
+When buying more of an existing stock:
+```
+New Avg Price = (Old Avg Price × Old Units + New Price × New Units) / Total Units
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Unrealized P/L
+Profit/loss on stocks you still own:
+```
+Unrealized P/L = (Current Price - Average Price) × Units
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Realized P/L
+Profit/loss from selling stocks:
+```
+Realized P/L = (Sale Price - Average Price) × Units Sold
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Net P/L
+Total profit/loss:
+```
+Net P/L = Unrealized P/L + Realized P/L
+```
 
-## Deploy on Vercel
+## 🌐 API Fallback Strategy
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The app uses a multi-API approach for reliability:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Stock Search:**
+   - Try Finnhub first (60 calls/min)
+   - Fallback to Alpha Vantage (5 calls/min)
+   - If both fail, manual symbol entry still works
+
+2. **Real-time Prices:**
+   - Try Finnhub first (fast, reliable)
+   - Fallback to Alpha Vantage
+   - If both fail, use your average purchase price
+
+3. **Stock Logos:**
+   - Financial Modeling Prep CDN
+   - Automatic 2-letter fallback if logo unavailable
+
+## 🐛 Troubleshooting
+
+### MongoDB Connection Issues
+
+**Local MongoDB:**
+```env
+MONGODB_URI=mongodb://localhost:27017/doy-again
+```
+
+**MongoDB Atlas:**
+```env
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/doy-again?retryWrites=true&w=majority
+```
+
+**Special Characters in Password:**
+URL encode them: `@` → `%40`, `#` → `%23`, etc.
+
+### API Keys Not Working
+
+- Verify keys are correct in `.env.local`
+- Restart dev server after adding keys
+- Check API rate limits (Finnhub: 60/min, Alpha Vantage: 5/min)
+- App works without API keys (manual symbol entry, no real-time prices)
+
+### Authentication Issues
+
+- Make sure `JWT_SECRET` is set in `.env.local`
+- Clear browser localStorage and try again
+- Check browser console for errors
+
+## 📝 License
+
+This project is open source and available under the MIT License.
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+
+## 👨‍💻 Author
+
+Built with ❤️ using Next.js, TypeScript, and MongoDB
+
+---
+
+**Happy Trading! 📈**
