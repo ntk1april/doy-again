@@ -165,7 +165,7 @@ export default function Navbar() {
 
   // Show navbar on all pages now (no signin/signup pages to hide it on)
   return (
-    <nav className="sticky top-0 z-50 bg-gradient-to-r from-blue-600 to-purple-600 shadow-lg">
+    <nav className="sticky top-0 z-50 bg-gradient-to-r from-red-500 to-green-500 shadow-lg">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo & Brand */}
@@ -254,7 +254,7 @@ export default function Navbar() {
                         </div>
                         <button
                           onClick={() => setShowActionMenu(showActionMenu === suggestion.symbol ? null : suggestion.symbol)}
-                          className="rounded-md bg-blue-600 px-3 py-1 text-sm font-medium text-white hover:bg-blue-700"
+                          className="rounded-md bg-blue-500 px-3 py-1 text-sm font-medium text-white hover:bg-blue-700"
                         >
                           Actions ▼
                         </button>
@@ -310,7 +310,7 @@ export default function Navbar() {
                   setAuthModalMode("signin");
                   setShowAuthModal(true);
                 }}
-                className="rounded-md px-4 py-2 text-sm font-medium text-white hover:bg-white/10 transition-colors"
+                className="rounded-md bg-white/20 px-4 py-2 text-sm font-medium text-white hover:bg-white/30 transition-colors"
               >
                 Sign In
               </button>

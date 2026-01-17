@@ -62,7 +62,7 @@ export default function HomePage() {
       setIsLoadingNews(true);
       const response = await fetch("/api/market-news");
       const data = await response.json();
-      
+
       if (data.success && data.data) {
         setMarketNews(data.data.slice(0, 6)); // Show top 6 news
       }
@@ -78,7 +78,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-green-50 to-green-50">
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24">
@@ -89,7 +89,7 @@ export default function HomePage() {
             <p className="text-xl md:text-2xl text-gray-700 mb-8 max-w-3xl mx-auto">
               Track your investments, analyze trends, and lost your money with confidence
             </p>
-            
+
             {/* CTA Buttons */}
             <div className="flex gap-4 justify-center mb-12">
               <button
@@ -97,7 +97,7 @@ export default function HomePage() {
                   setAuthModalMode("signup");
                   setShowAuthModal(true);
                 }}
-                className="rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-4 text-lg font-semibold text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
+                className="rounded-lg bg-gradient-to-r from-red-500 to-green-500 px-8 py-4 text-lg font-semibold text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
               >
                 Get Started Free
               </button>
@@ -122,9 +122,9 @@ export default function HomePage() {
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
             Everything You Need to Manage Your Portfolio
           </h2>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200">
+            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-red-50 to-green-50 border border-blue-200">
               <div className="text-5xl mb-4">📊</div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">Portfolio Tracking</h3>
               <p className="text-gray-700">
@@ -132,7 +132,7 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200">
+            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-green-50 to-green-100 border border-green-200">
               <div className="text-5xl mb-4">⭐</div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">Wishlist</h3>
               <p className="text-gray-700">
@@ -140,7 +140,7 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-pink-50 to-pink-100 border border-pink-200">
+            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-green-50 to-green-100 border border-green-200">
               <div className="text-5xl mb-4">📈</div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">Market Analysis</h3>
               <p className="text-gray-700">
@@ -204,7 +204,7 @@ export default function HomePage() {
       </div>
 
       {/* Footer CTA */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 py-16">
+      <div className="bg-gradient-to-r from-red-500 to-green-500 py-16">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">
             Ready to Start Your Investment Journey?
@@ -217,7 +217,7 @@ export default function HomePage() {
               setAuthModalMode("signup");
               setShowAuthModal(true);
             }}
-            className="inline-block rounded-lg bg-white px-8 py-4 text-lg font-semibold text-blue-600 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
+            className="inline-block rounded-lg bg-white px-8 py-4 text-lg font-semibold text-green-600 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
           >
             Create Free Account
           </button>
@@ -225,8 +225,8 @@ export default function HomePage() {
       </div>
 
       {/* Auth Modal */}
-      <AuthModal 
-        isOpen={showAuthModal} 
+      <AuthModal
+        isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
         initialMode={authModalMode}
       />

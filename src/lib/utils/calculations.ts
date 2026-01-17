@@ -10,7 +10,7 @@
 export const calculateUnrealizedPnl = (
   currentPrice: number,
   avgPrice: number,
-  units: number
+  units: number,
 ): number => {
   return (currentPrice - avgPrice) * units;
 };
@@ -21,7 +21,7 @@ export const calculateUnrealizedPnl = (
  */
 export const calculateUnrealizedPnlPercent = (
   currentPrice: number,
-  avgPrice: number
+  avgPrice: number,
 ): number => {
   if (avgPrice === 0) return 0;
   return ((currentPrice - avgPrice) / avgPrice) * 100;
@@ -33,7 +33,7 @@ export const calculateUnrealizedPnlPercent = (
  */
 export const calculateCurrentValue = (
   currentPrice: number,
-  units: number
+  units: number,
 ): number => {
   return currentPrice * units;
 };
@@ -54,11 +54,11 @@ export const calculateNewAvgPrice = (
   oldUnits: number,
   oldAvgPrice: number,
   newUnits: number,
-  buyPrice: number
+  buyPrice: number,
 ): number => {
   const totalUnits = oldUnits + newUnits;
   if (totalUnits === 0) return 0;
-  
+
   return (oldUnits * oldAvgPrice + newUnits * buyPrice) / totalUnits;
 };
 
@@ -69,7 +69,7 @@ export const calculateNewAvgPrice = (
 export const calculateRealizedPnl = (
   sellPrice: number,
   avgPrice: number,
-  sellUnits: number
+  sellUnits: number,
 ): number => {
   return (sellPrice - avgPrice) * sellUnits;
 };
@@ -80,7 +80,7 @@ export const calculateRealizedPnl = (
  */
 export const calculateNetPnl = (
   unrealizedPnl: number,
-  realizedPnl: number
+  realizedPnl: number,
 ): number => {
   return unrealizedPnl + realizedPnl;
 };
@@ -91,19 +91,22 @@ export const calculateNetPnl = (
  */
 export const calculateNetPnlPercent = (
   netPnl: number,
-  totalInvested: number
+  totalInvested: number,
 ): number => {
   if (totalInvested === 0) return 0;
   return (netPnl / totalInvested) * 100;
 };
 
 /**
- * Format a number as currency (USD)
+ * Format a number as currency (USD or THB)
  */
-export const formatCurrency = (value: number): string => {
-  return new Intl.NumberFormat("en-US", {
+export const formatCurrency = (
+  value: number,
+  currency: "USD" | "THB" = "USD",
+): string => {
+  return new Intl.NumberFormat(currency === "THB" ? "th-TH" : "en-US", {
     style: "currency",
-    currency: "USD",
+    currency: currency,
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(value);

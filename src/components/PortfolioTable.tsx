@@ -15,15 +15,21 @@ import StockLogo from "./StockLogo";
 
 interface Props {
   stocks: PortfolioTableFiled[];
+  currency: "USD" | "THB";
+  exchangeRate: number;
 }
 
-type SortField = "symbol" | "units" | "avgPrice" | "currentPrice" | "totalCost" | "currentValue" | "unrealizedPnl" | "realizedPnl" | "netPnl" | null;
+type SortField = "symbol" | "units" | "avgPrice" | "currentPrice" | "totalCost" | "currentValue" | "unrealizedPnl" | "realizedPnl" | "netPnl";
 type SortDirection = "asc" | "desc";
 
-export default function PortfolioTable({ stocks }: Props) {
+export default function PortfolioTable({ stocks, currency, exchangeRate }: Props) {
   const router = useRouter();
-  const [sortField, setSortField] = useState<SortField>(null);
+  const [sortField, setSortField] = useState<SortField>("symbol");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
+
+  const convertValue = (value: number) => {
+    return currency === "THB" ? value * exchangeRate : value;
+  };
 
   if (stocks.length === 0) {
     return (
@@ -45,7 +51,7 @@ export default function PortfolioTable({ stocks }: Props) {
     } else {
       // Set new field with ascending order
       setSortField(field);
-      setSortDirection("asc");
+      setSortDirection("desc");
     }
   };
 
@@ -102,75 +108,83 @@ export default function PortfolioTable({ stocks }: Props) {
       <table className="w-full text-sm">
         <thead className="border-b border-gray-200 bg-gray-50">
           <tr>
-            <th 
+            <th
               className="px-4 py-3 text-left font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
               onClick={() => handleSort("symbol")}
             >
-              <div className="flex items-center">
+              <div className="flex items-center gap-1">
                 Stock
                 <SortIcon field="symbol" />
               </div>
             </th>
-            <th className="px-4 py-3 text-right font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
-                onClick={() => handleSort("units")}
+            <th
+              className="px-4 py-3 text-right font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
+              onClick={() => handleSort("units")}
             >
-              <div className="flex items-center">
+              <div className="flex items-center justify-end gap-1">
                 Units
                 <SortIcon field="units" />
               </div>
             </th>
-            <th className="px-4 py-3 text-right font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
-                onClick={() => handleSort("avgPrice")}
+            <th
+              className="px-4 py-3 text-right font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
+              onClick={() => handleSort("avgPrice")}
             >
-               <div className="flex items-center">
+              <div className="flex items-center justify-end gap-1">
                 Avg Price
                 <SortIcon field="avgPrice" />
               </div>
             </th>
-            <th className="px-4 py-3 text-right font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
-                onClick={() => handleSort("currentPrice")}
+            <th
+              className="px-4 py-3 text-right font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
+              onClick={() => handleSort("currentPrice")}
             >
-              <div className="flex items-center">
+              <div className="flex items-center justify-end gap-1">
                 Current Price
                 <SortIcon field="currentPrice" />
               </div>
             </th>
-            <th className="px-4 py-3 text-right font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
-                onClick={() => handleSort("totalCost")}
+            <th
+              className="px-4 py-3 text-right font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
+              onClick={() => handleSort("totalCost")}
             >
-              <div className="flex items-center">
+              <div className="flex items-center justify-end gap-1">
                 Total Cost
                 <SortIcon field="totalCost" />
               </div>
             </th>
-            <th className="px-4 py-3 text-right font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
-                onClick={() => handleSort("currentValue")}
+            <th
+              className="px-4 py-3 text-right font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
+              onClick={() => handleSort("currentValue")}
             >
-              <div className="flex items-center">
+              <div className="flex items-center justify-end gap-1">
                 Current Value
                 <SortIcon field="currentValue" />
               </div>
             </th>
-            <th className="px-4 py-3 text-right font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
-                onClick={() => handleSort("unrealizedPnl")}
+            <th
+              className="px-4 py-3 text-right font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
+              onClick={() => handleSort("unrealizedPnl")}
             >
-              <div className="flex items-center">
+              <div className="flex items-center justify-end gap-1">
                 Unrealized P/L
                 <SortIcon field="unrealizedPnl" />
               </div>
             </th>
-            <th className="px-4 py-3 text-right font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
-                onClick={() => handleSort("realizedPnl")}
+            <th
+              className="px-4 py-3 text-right font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
+              onClick={() => handleSort("realizedPnl")}
             >
-              <div className="flex items-center">
+              <div className="flex items-center justify-end gap-1">
                 Realized P/L
                 <SortIcon field="realizedPnl" />
               </div>
             </th>
-            <th className="px-4 py-3 text-right font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
-                onClick={() => handleSort("netPnl")}
+            <th
+              className="px-4 py-3 text-right font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
+              onClick={() => handleSort("netPnl")}
             >
-              <div className="flex items-center">
+              <div className="flex items-center justify-end gap-1">
                 Net P/L
                 <SortIcon field="netPnl" />
               </div>
@@ -201,36 +215,35 @@ export default function PortfolioTable({ stocks }: Props) {
 
                 {/* Units */}
                 <td className="px-4 py-3 text-right text-gray-700">
-                  {formatNumber(stock.units, 0)}
+                  {formatNumber(stock.units, 7)}
                 </td>
 
                 {/* Avg Price */}
                 <td className="px-4 py-3 text-right text-gray-700">
-                  {formatCurrency(stock.avgPrice)}
+                  {formatNumber(stock.avgPrice, 4)}
                 </td>
 
                 {/* Current Price */}
                 <td className="px-4 py-3 text-right text-gray-700">
-                  {formatCurrency(stock.currentPrice)}
+                  {formatCurrency(convertValue(stock.currentPrice), currency)}
                 </td>
 
                 {/* Total Cost */}
                 <td className="px-4 py-3 text-right text-gray-700">
-                  {formatCurrency(stock.totalCost)}
+                  {formatCurrency(convertValue(stock.totalCost), currency)}
                 </td>
 
                 {/* Current Value */}
                 <td className="px-4 py-3 text-right text-gray-700">
-                  {formatCurrency(stock.currentValue)}
+                  {formatCurrency(convertValue(stock.currentValue), currency)}
                 </td>
 
                 {/* Unrealized P/L */}
                 <td
-                  className={`px-4 py-3 text-right font-medium ${
-                    isUnrealizedProfit ? "text-green-600" : "text-red-600"
-                  }`}
+                  className={`px-4 py-3 text-right font-medium ${isUnrealizedProfit ? "text-green-600" : "text-red-600"
+                    }`}
                 >
-                  {formatCurrency(stock.unrealizedPnl)}
+                  {formatCurrency(convertValue(stock.unrealizedPnl), currency)}
                   <div className="text-xs text-gray-500 font-normal">
                     {formatPercent(stock.unrealizedPnlPercent)}
                   </div>
@@ -238,20 +251,18 @@ export default function PortfolioTable({ stocks }: Props) {
 
                 {/* Realized P/L */}
                 <td
-                  className={`px-4 py-3 text-right font-medium ${
-                    isRealizedProfit ? "text-green-600" : "text-red-600"
-                  }`}
+                  className={`px-4 py-3 text-right font-medium ${isRealizedProfit ? "text-green-600" : "text-red-600"
+                    }`}
                 >
-                  {formatCurrency(stock.realizedPnl)}
+                  {formatCurrency(convertValue(stock.realizedPnl), currency)}
                 </td>
 
                 {/* Net P/L */}
                 <td
-                  className={`px-4 py-3 text-right font-bold ${
-                    isNetProfit ? "text-green-600" : "text-red-600"
-                  }`}
+                  className={`px-4 py-3 text-right font-bold ${isNetProfit ? "text-green-600" : "text-red-600"
+                    }`}
                 >
-                  {formatCurrency(stock.netPnl)}
+                  {formatCurrency(convertValue(stock.netPnl), currency)}
                   <div className="text-xs text-gray-500 font-normal">
                     {formatPercent(stock.netPnlPercent)}
                   </div>
@@ -261,10 +272,10 @@ export default function PortfolioTable({ stocks }: Props) {
                 <td className="px-4 py-3 text-center">
                   <Link
                     href={`/portfolio/edit/${stock.symbol}`}
-                    className="inline-block rounded bg-blue-600 px-3 py-1 text-xs font-medium text-white hover:bg-blue-700"
+                    className="inline-block rounded bg-blue-500 px-3 py-1 text-xs font-medium text-white hover:bg-blue-700"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    Buy/Sell
+                    +/-
                   </Link>
                 </td>
               </tr>

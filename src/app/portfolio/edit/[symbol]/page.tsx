@@ -80,11 +80,13 @@ export default function EditStockPage() {
   const handleSubmit = async (formData: FormData) => {
     const result = await Swal.fire({
       title: "Are you sure?",
-      text: `You are about to ${action.toLowerCase()} ${formData.units} units of ${symbol} at ${formatCurrency(formData.price)} each!`,
+      text: `You are about to ${action.toLowerCase()} ${formData.units} units of ${symbol} at ${formData.price} each!`,
       icon: "question",
       showCancelButton: true,
       confirmButtonText: `Yes, ${action.toLowerCase()} it!`,
       cancelButtonText: "Cancel",
+      confirmButtonColor: "#16C47F",
+      cancelButtonColor: "#F93827",
     });
 
     if (result.isConfirmed) {
@@ -189,13 +191,13 @@ export default function EditStockPage() {
                 <div className="flex justify-between">
                   <span className="text-gray-600">Units:</span>
                   <span className="font-semibold text-gray-900">
-                    {formatNumber(stock.units, 0)}
+                    {formatNumber(stock.units, 7)}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Average Price:</span>
                   <span className="font-semibold text-gray-900">
-                    {formatCurrency(stock.avgPrice)}
+                    {formatNumber(stock.avgPrice, 4)}
                   </span>
                 </div>
                 <div className="flex justify-between">
@@ -286,7 +288,7 @@ export default function EditStockPage() {
               >
                 {action === "SELL" && (
                   <div className="rounded-md border border-blue-200 bg-blue-50 p-3 text-sm text-blue-700 mb-4">
-                    Maximum units available: {formatNumber(stock.units, 0)}
+                    Maximum units available: {formatNumber(stock.units, 7)}
                   </div>
                 )}
               </StockForm>

@@ -66,8 +66,8 @@ export default function AuthModal({ isOpen, onClose, initialMode = "signin" }: A
               {mode === "signin" ? "Welcome Back!" : "Create Account"}
             </h2>
             <p className="text-gray-600">
-              {mode === "signin" 
-                ? "Sign in to continue to Doy Again" 
+              {mode === "signin"
+                ? "Sign in to continue to Doy Again"
                 : "Join Doy Again to track your investments"}
             </p>
           </div>
@@ -133,10 +133,10 @@ export default function AuthModal({ isOpen, onClose, initialMode = "signin" }: A
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-3 font-semibold text-white hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="w-full rounded-lg bg-gradient-to-r from-red-500 to-green-500 px-4 py-3 font-semibold text-white hover:from-red-700 hover:to-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
-              {isLoading 
-                ? "Loading..." 
+              {isLoading
+                ? "Loading..."
                 : mode === "signin" ? "Sign In" : "Create Account"}
             </button>
           </form>
@@ -146,7 +146,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = "signin" }: A
               {mode === "signin" ? "Don't have an account? " : "Already have an account? "}
               <button
                 onClick={switchMode}
-                className="font-semibold text-blue-600 hover:text-blue-700"
+                className="font-semibold text-blue-500 hover:text-blue-700"
               >
                 {mode === "signin" ? "Sign Up" : "Sign In"}
               </button>

@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 
 interface User {
   id: string;
@@ -86,12 +87,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     router.push("/portfolio");
   };
 
-  const signOut = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setToken(null);
-    setUser(null);
-    router.push("/");
+  const signOut = async () => {
+    const result = await Swal.fire({
+      title: "Are you sure you want to sign out?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, sign out!",
+      cancelButtonText: "No, cancel!",
+      confirmButtonColor: "#F93827",
+      cancelButtonColor: "#16C47F",
+    });
+
+    if (result.isConfirmed) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      setToken(null);
+      setUser(null);
+      router.push("/");
+    }
   };
 
   return (

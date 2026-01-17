@@ -13,7 +13,6 @@ import { ApiResponse } from "@/types";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { authFetch } from "@/lib/utils/auth-fetch";
 import Swal from "sweetalert2";
-import { formatCurrency } from "@/lib/utils/calculations";
 
 function AddStockContent() {
   const router = useRouter();
@@ -26,11 +25,13 @@ function AddStockContent() {
   const handleSubmit = async (formData: FormData) => {
     const result = await Swal.fire({
       title: "Are you sure?",
-      text: `You are about to add ${formData.units} units of ${formData.symbol} at ${formatCurrency(formData.price)} each!`,
+      text: `You are about to add ${formData.units} units of ${formData.symbol} at ${formData.price} each!`,
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Yes, add it!",
       cancelButtonText: "Cancel",
+      confirmButtonColor: "#16C47F",
+      cancelButtonColor: "#F93827",
     });
 
     if (result.isConfirmed) {

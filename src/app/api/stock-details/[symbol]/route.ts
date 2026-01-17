@@ -3,12 +3,12 @@ import { ApiResponse } from "@/types";
 import { getStockDetails } from "@/lib/utils/stockDetails";
 
 /**
- * GET /api/stocks/[symbol]
+ * GET /api/stock-details/[symbol]
  * Get detailed information about any stock (public endpoint - no auth required)
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ symbol: string }> }
+  { params }: { params: Promise<{ symbol: string }> },
 ): Promise<NextResponse> {
   try {
     const { symbol } = await params;
@@ -22,7 +22,7 @@ export async function GET(
         success: true,
         data: stockDetails,
       } as ApiResponse,
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Error fetching stock details:", error);
@@ -31,7 +31,7 @@ export async function GET(
         success: false,
         error: "Failed to fetch stock details",
       } as ApiResponse,
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

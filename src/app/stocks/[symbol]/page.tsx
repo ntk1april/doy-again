@@ -18,6 +18,18 @@ interface StockDetails {
   sentiment: any;
 }
 
+interface NewsArticle {
+  category: string;
+  datetime: number;
+  headline: string;
+  id: number;
+  image: string;
+  related: string;
+  source: string;
+  summary: string;
+  url: string;
+}
+
 export default function StockDetailPage() {
   const params = useParams();
   const router = useRouter();
@@ -32,18 +44,21 @@ export default function StockDetailPage() {
   const [checkingStatus, setCheckingStatus] = useState(true);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<"signin" | "signup">("signin");
+  const [news, setNews] = useState<NewsArticle[]>([]);
+  const [newsLoading, setNewsLoading] = useState(false);
 
   useEffect(() => {
     if (symbol) {
       fetchStockDetails();
       checkPortfolioAndWishlist();
+      fetchStockNews();
     }
   }, [symbol]);
 
   const fetchStockDetails = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`/api/stocks/${symbol}`);
+      const response = await fetch(`/api/stock-details/${symbol}`);
       const data = await response.json();
 
       if (data.success) {
@@ -52,9 +67,28 @@ export default function StockDetailPage() {
         setError(data.error || "Failed to load stock details");
       }
     } catch (err) {
+      console.error("Error:", err);
       setError("Failed to load stock details");
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const fetchStockNews = async () => {
+    try {
+      setNewsLoading(true);
+
+      // Call our backend API route
+      const response = await fetch(`/api/stock-news/${symbol}`);
+      const data = await response.json();
+
+      if (data.success && Array.isArray(data.data)) {
+        setNews(data.data);
+      }
+    } catch (err) {
+      console.error("Error fetching stock news:", err);
+    } finally {
+      setNewsLoading(false);
     }
   };
 
@@ -117,7 +151,7 @@ export default function StockDetailPage() {
       if (data.success) {
         Swal.fire({
           icon: "success",
-          title: "Stock added to wishlist!",
+          title: `${symbol} added to wishlist!`,
           showConfirmButton: false,
           timer: 1500,
         });
@@ -148,6 +182,8 @@ export default function StockDetailPage() {
       showCancelButton: true,
       confirmButtonText: "ลบแม่งเลย",
       cancelButtonText: "เก็บไว้ก่อน ตัวนี้น่าสน",
+      confirmButtonColor: "#F93827",
+      cancelButtonColor: "#16C47F",
     })
 
     if (result.isConfirmed) {
@@ -240,14 +276,14 @@ export default function StockDetailPage() {
               ) : isInWishlist ? (
                 <button
                   onClick={handleRemoveFromWishlist}
-                  className="rounded-md bg-red-600 px-4 py-2 font-medium text-white hover:bg-red-700"
+                  className="rounded-md bg-red-500 px-4 py-2 font-medium text-white hover:bg-red-700"
                 >
                   🗑️ Remove from Wishlist
                 </button>
               ) : (
                 <button
                   onClick={handleAddToWishlist}
-                  className="rounded-md bg-purple-600 px-4 py-2 font-medium text-white hover:bg-purple-700"
+                  className="rounded-md bg-blue-500 px-4 py-2 font-medium text-white hover:bg-blue-700"
                 >
                   ⭐ Add to Wishlist
                 </button>
@@ -257,7 +293,7 @@ export default function StockDetailPage() {
               {isInPortfolio ? (
                 <Link
                   href={`/portfolio/edit/${symbol}`}
-                  className="rounded-md bg-green-600 px-4 py-2 font-medium text-white hover:bg-green-700"
+                  className="rounded-md bg-green-500 px-4 py-2 font-medium text-white hover:bg-green-700"
                 >
                   📊 Buy/Sell More
                 </Link>
@@ -271,7 +307,7 @@ export default function StockDetailPage() {
                       router.push(`/portfolio/add?symbol=${symbol}`);
                     }
                   }}
-                  className="rounded-md bg-green-600 px-4 py-2 font-medium text-white hover:bg-green-700"
+                  className="rounded-md bg-green-500 px-4 py-2 font-medium text-white hover:bg-green-700"
                 >
                   📊 Add to Portfolio
                 </button>
@@ -524,6 +560,83 @@ export default function StockDetailPage() {
                 </div>
               )}
             </div>
+          </div>
+
+          {/* Stock News Section */}
+          <div className="mt-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              Latest News for {symbol}
+            </h2>
+
+            {newsLoading ? (
+              <div className="text-center py-12">
+                <p className="text-gray-600">Loading news...</p>
+              </div>
+            ) : news.length > 0 ? (
+              <div className="rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden">
+                <table className="w-full">
+                  <thead className="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
+                        Headline
+                      </th>
+                      <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
+                        Source
+                      </th>
+                      <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
+                        Date
+                      </th>
+                      <th className="px-6 py-3 text-center text-sm font-semibold text-gray-900">
+                        {/* Action */}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {news.map((article, index) => (
+                      <tr key={article.id} className="hover:bg-gray-50 transition-colors">
+                        {/* Headline */}
+                        <td className="px-6 py-4">
+                          <div>
+                            <h3 className="font-semibold text-gray-900 mb-1 line-clamp-2">
+                              {article.headline}
+                            </h3>
+                            <p className="text-sm text-gray-600 line-clamp-2">
+                              {article.summary}
+                            </p>
+                          </div>
+                        </td>
+
+                        {/* Source */}
+                        <td className="px-6 py-4 text-sm text-gray-700 whitespace-nowrap">
+                          {article.source}
+                        </td>
+
+                        {/* Date */}
+                        <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                          {new Date(article.datetime * 1000).toLocaleDateString()}
+                        </td>
+
+                        {/* Action */}
+                        <td className="px-6 py-4 text-center">
+                          <a
+                            href={article.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 transition-colors"
+                          >
+                            Read More
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="text-center py-12 bg-gray-50 rounded-lg">
+                <p className="text-gray-600">No recent news available for {symbol}</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -119,6 +119,8 @@ export default function WishlistPage() {
       showCancelButton: true,
       confirmButtonText: "ลบแม่งเลย",
       cancelButtonText: "เก็บไว้ก่อน ตัวนี้น่าสน",
+      confirmButtonColor: "#F93827",
+      cancelButtonColor: "#16C47F",
     });
 
     if (!result.isConfirmed) return;
@@ -131,6 +133,12 @@ export default function WishlistPage() {
       const data = await response.json();
 
       if (data.success) {
+        Swal.fire({
+          title: `${symbol} removed from wishlist!`,
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         fetchWishlist();
       } else {
         Swal.fire({
@@ -235,28 +243,6 @@ export default function WishlistPage() {
                       </div>
                     )}
 
-                    {/* Target Price */}
-                    {item.targetPrice && (
-                      <div className="mb-3">
-                        <span className="text-sm text-gray-600">Target Price: </span>
-                        <span className="font-semibold text-gray-900">
-                          ${item.targetPrice.toFixed(2)}
-                        </span>
-                        {priceData && (
-                          <span className={`ml-2 text-xs ${priceData.price >= item.targetPrice ? 'text-green-600' : 'text-gray-500'}`}>
-                            {priceData.price >= item.targetPrice ? '✓ Reached' : `${((item.targetPrice - priceData.price) / priceData.price * 100).toFixed(1)}% away`}
-                          </span>
-                        )}
-                      </div>
-                    )}
-
-                    {/* Notes */}
-                    {item.notes && (
-                      <div className="mb-4">
-                        <p className="text-sm text-gray-600 line-clamp-2">{item.notes}</p>
-                      </div>
-                    )}
-
                     {/* Added Date */}
                     <div className="mb-4 text-xs text-gray-500">
                       Added {new Date(item.addedAt).toLocaleDateString()}
@@ -266,15 +252,15 @@ export default function WishlistPage() {
                     <div className="flex gap-2">
                       <Link
                         href={`/stocks/${item.symbol}`}
-                        className="flex-1 rounded-md bg-blue-600 px-4 py-2 text-center text-sm font-medium text-white hover:bg-blue-700"
+                        className="flex-1 rounded-md bg-blue-500 px-4 py-2 text-center font-medium text-white hover:bg-blue-700"
                       >
-                        View Details
+                        🔍 View Details
                       </Link>
                       <button
                         onClick={() => handleRemove(item.symbol)}
-                        className="rounded-md border border-red-300 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50"
+                        className="rounded-md border border-red-500 px-4 py-2 font-medium text-red-500 hover:bg-red-10rounded-md bg-red-600 px-4 py-2 font-medium text-white hover:bg-red-700"
                       >
-                        Remove
+                        🗑️ Remove
                       </button>
                     </div>
                   </div>

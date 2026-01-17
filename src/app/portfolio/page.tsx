@@ -40,6 +40,8 @@ export default function PortfolioDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [currentQuote, setCurrentQuote] = useState<Quote>(investorQuotes[0]);
+  const [currency, setCurrency] = useState<"USD" | "THB">("USD");
+  const [exchangeRate, setExchangeRate] = useState(31.45); // Default fallback
   const { user, signOut, isLoading: authLoading } = useAuth();
   const router = useRouter();
 
@@ -52,18 +54,33 @@ export default function PortfolioDashboard() {
 
     if (user) {
       fetchPortfolio();
+      fetchExchangeRate();
     }
   }, [user, authLoading, router]);
 
-  // Rotate quotes every 15 seconds
+  // Rotate quotes every 10 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       const randomIndex = Math.floor(Math.random() * investorQuotes.length);
       setCurrentQuote(investorQuotes[randomIndex]);
-    }, 15000);
+    }, 10000);
 
     return () => clearInterval(interval);
   }, []);
+
+  const fetchExchangeRate = async () => {
+    try {
+      const response = await fetch("/api/exchange-rate");
+      const data = await response.json();
+
+      if (data.success && data.data.rate) {
+        setExchangeRate(data.data.rate);
+      }
+    } catch (err) {
+      console.error("Error fetching exchange rate:", err);
+      // Keep using fallback rate
+    }
+  };
 
   const fetchPortfolio = async () => {
     try {
@@ -113,12 +130,36 @@ export default function PortfolioDashboard() {
             <h1 className="text-3xl font-bold text-gray-900">Portfolio 📊</h1>
             <p className="mt-2 text-gray-600">Welcome, {user.name}! 👋</p>
           </div>
-          <Link
-            href="/portfolio/add"
-            className="rounded-md bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700"
-          >
-            + Add Stock
-          </Link>
+          <div className="flex items-center gap-3">
+            {/* Currency Toggle */}
+            <label className="text-sm font-semibold text-gray-700">Select currency:</label>
+            <div className="flex items-center bg-white rounded-lg border border-gray-300 p-1">
+              <button
+                onClick={() => setCurrency("USD")}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${currency === "USD"
+                  ? "bg-blue-500 text-white"
+                  : "text-gray-600 hover:text-gray-900"
+                  }`}
+              >
+                USD
+              </button>
+              <button
+                onClick={() => setCurrency("THB")}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${currency === "THB"
+                  ? "bg-blue-500 text-white"
+                  : "text-gray-600 hover:text-gray-900"
+                  }`}
+              >
+                THB
+              </button>
+            </div>
+            <Link
+              href="/portfolio/add"
+              className="rounded-md bg-blue-500 px-4 py-2 font-medium text-white hover:bg-blue-700"
+            >
+              + Add Stock
+            </Link>
+          </div>
         </div>
 
         {/* Motivational Quote */}
@@ -148,11 +189,11 @@ export default function PortfolioDashboard() {
         {/* Portfolio Summary */}
         {!isLoading && summary && (
           <>
-            <PortfolioSummary summary={summary} />
+            <PortfolioSummary summary={summary} currency={currency} exchangeRate={exchangeRate} />
 
             {/* Portfolio Table */}
             <div className="mt-8">
-              <PortfolioTable stocks={stocks} />
+              <PortfolioTable stocks={stocks} currency={currency} exchangeRate={exchangeRate} />
             </div>
           </>
         )}

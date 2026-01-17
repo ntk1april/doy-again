@@ -138,11 +138,10 @@ export default function TransactionHistoryPage() {
               <button
                 key={filter}
                 onClick={() => setTimeFilter(filter)}
-                className={`rounded-md px-4 py-2 font-medium transition-colors ${
-                  timeFilter === filter
-                    ? "bg-blue-600 text-white"
+                className={`rounded-md px-4 py-2 font-medium transition-colors ${timeFilter === filter
+                    ? "bg-blue-500 text-white"
                     : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
-                }`}
+                  }`}
               >
                 {getFilterLabel(filter)}
               </button>
@@ -233,11 +232,10 @@ export default function TransactionHistoryPage() {
                         {/* Type */}
                         <td className="px-4 py-3 text-center">
                           <span
-                            className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${
-                              isBuy
+                            className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${isBuy
                                 ? "bg-green-100 text-green-700"
                                 : "bg-red-100 text-red-700"
-                            }`}
+                              }`}
                           >
                             {transaction.type}
                           </span>
@@ -262,9 +260,8 @@ export default function TransactionHistoryPage() {
                         <td className="px-4 py-3 text-right">
                           {transaction.realizedPnl !== undefined && transaction.realizedPnl !== 0 ? (
                             <span
-                              className={`font-medium ${
-                                transaction.realizedPnl >= 0 ? "text-green-600" : "text-red-600"
-                              }`}
+                              className={`font-medium ${transaction.realizedPnl >= 0 ? "text-green-600" : "text-red-600"
+                                }`}
                             >
                               {formatCurrency(transaction.realizedPnl)}
                             </span>
