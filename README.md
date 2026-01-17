@@ -1,14 +1,23 @@
-# Stock Portfolio Tracker
+# Stock Portfolio Tracker - Doy Again 📉
 
-A full-stack web application for tracking your stock portfolio with real-time prices, profit/loss calculations, and transaction history. Built with Next.js, TypeScript, MongoDB, and modern authentication.
+A modern, full-stack web application for tracking your stock portfolio with real-time prices, profit/loss calculations, wishlist management, and market news. Built with Next.js, TypeScript, MongoDB, and modern authentication.
 
 ## ✨ Features
 
 ### 📊 Portfolio Management
-- **Real-time Stock Prices** - Integration with Finnhub and Alpha Vantage APIs
+- **Real-time Stock Prices** - Integration with Finnhub API
 - **Profit/Loss Tracking** - Automatic calculation of realized and unrealized P/L
 - **Portfolio Summary** - Overview of total investment, current value, and net P/L
 - **Stock Logos** - Visual identification with automatic 2-letter fallback
+- **Sortable Columns** - Sort by any column (symbol, units, price, P/L, etc.)
+- **Auto-fill Symbol** - Click from stock details to pre-fill add/edit forms
+
+### ⭐ Wishlist
+- **Track Stocks** - Save stocks you're interested in without buying
+- **Add Notes** - Personal notes for each wishlist item
+- **Target Price** - Set your desired entry price
+- **Quick Actions** - Add to portfolio or remove from wishlist
+- **View Details** - Click any stock to see full analysis
 
 ### 💼 Transaction Management
 - **Buy/Sell Stocks** - Easy interface for managing your positions
@@ -16,17 +25,33 @@ A full-stack web application for tracking your stock portfolio with real-time pr
 - **Time Filters** - View transactions by day, week, month, or all time
 - **Realized P/L Tracking** - See profits/losses from completed trades
 
+### 📰 Market News
+- **Latest News** - Top market news from Finnhub
+- **News Tab** - Dedicated page for authenticated users
+- **Article Cards** - Images, headlines, summaries, and sources
+- **External Links** - Click to read full articles
+
+### 🔍 Stock Details & Search
+- **Comprehensive Analysis** - Company info, metrics, recommendations
+- **Analyst Ratings** - Buy/Hold/Sell recommendations
+- **News Sentiment** - Market sentiment analysis
+- **Global Search** - Search any stock from navbar
+- **Auto-complete** - Smart suggestions with logos
+- **Public Access** - View stock details without signing in
+
 ### 🔐 User Authentication
-- **Secure Sign Up/Sign In** - JWT-based authentication
-- **Password Security** - Bcrypt hashing with validation requirements
-- **Personal Data Isolation** - Each user has their own private portfolio
-- **Session Management** - 7-day token expiration with auto-logout
+- **Modal-based Auth** - Seamless sign in/up without page redirects
+- **JWT Authentication** - Secure token-based auth
+- **Password Security** - Bcrypt hashing with validation
+- **Personal Data** - Each user has private portfolio
+- **Session Management** - 7-day token expiration
 
 ### 🎨 Modern UI/UX
 - **Responsive Design** - Works on desktop, tablet, and mobile
-- **Beautiful Gradients** - Modern blue gradient backgrounds
+- **Beautiful Gradients** - Modern blue-purple gradient theme
 - **Interactive Elements** - Hover effects and smooth transitions
-- **Stock Logos** - Visual branding with automatic fallbacks
+- **Motivational Quotes** - Rotating investor quotes on portfolio
+- **Landing Page** - Beautiful entry page for non-authenticated users
 
 ## 🚀 Getting Started
 
@@ -159,41 +184,56 @@ doy-again/
 │   │   │   │   ├── signin/       # Sign in
 │   │   │   │   └── signup/       # Sign up
 │   │   │   ├── portfolio/        # Portfolio endpoints
-│   │   │   │   ├── stocks/       # Stock CRUD operations
-│   │   │   │   └── transactions/ # Transaction history
-│   │   │   └── search-stocks/    # Stock search autocomplete
+│   │   │   │   └── stocks/       # Stock CRUD operations
+│   │   │   ├── wishlist/         # Wishlist endpoints
+│   │   │   │   └── [symbol]/     # Wishlist item operations
+│   │   │   ├── stocks/           # Stock details
+│   │   │   │   └── [symbol]/     # Get stock information
+│   │   │   ├── market-news/      # Market news endpoint
+│   │   │   ├── search-stocks/    # Stock search autocomplete
+│   │   │   └── stock-price/      # Real-time price fetching
 │   │   ├── portfolio/            # Portfolio pages
 │   │   │   ├── add/              # Add stock page
-│   │   │   ├── edit/[symbol]/    # Edit stock page
+│   │   │   ├── edit/[symbol]/    # Edit stock page (buy/sell)
 │   │   │   └── history/          # Transaction history page
-│   │   ├── signin/               # Sign in page
-│   │   ├── signup/               # Sign up page
-│   │   └── page.tsx              # Home page (redirects)
+│   │   ├── wishlist/             # Wishlist pages
+│   │   │   └── page.tsx          # Wishlist management
+│   │   ├── stocks/               # Stock pages
+│   │   │   └── [symbol]/         # Stock details page
+│   │   ├── news/                 # News page
+│   │   │   └── page.tsx          # Market news
+│   │   └── page.tsx              # Landing page
 │   ├── components/               # React components
 │   │   ├── PortfolioTable.tsx    # Stock list table
 │   │   ├── PortfolioSummary.tsx  # Portfolio overview
-│   │   ├── StockForm.tsx         # Stock input form
+│   │   ├── AddStockForm.tsx      # Stock input form
 │   │   ├── StockLogo.tsx         # Logo with fallback
+│   │   ├── Navbar.tsx            # Navigation with search
+│   │   ├── AuthModal.tsx         # Sign in/up modal
 │   │   └── ProtectedRoute.tsx    # Auth wrapper
 │   ├── contexts/                 # React contexts
 │   │   └── AuthContext.tsx       # Authentication state
 │   ├── lib/                      # Utilities and configs
 │   │   ├── auth/                 # Auth utilities
 │   │   │   ├── middleware.ts     # JWT validation
-│   │   │   └── utils.ts          # Password hashing, etc.
+│   │   │   └── utils.ts          # Password hashing
 │   │   ├── db/                   # Database
 │   │   │   ├── connection.ts     # MongoDB connection
-│   │   │   ├── models.ts         # Stock & Transaction models
+│   │   │   ├── models.ts         # Stock model
+│   │   │   ├── wishlistModel.ts  # Wishlist model
 │   │   │   └── userModel.ts      # User model
 │   │   └── utils/                # Helper functions
 │   │       ├── auth-fetch.ts     # Authenticated fetch
 │   │       ├── calculations.ts   # P/L calculations
 │   │       ├── logos.ts          # Logo URLs
-│   │       └── realPrices.ts     # Stock price fetching
+│   │       ├── realPrices.ts     # Stock price fetching
+│   │       └── stockDetails.ts   # Stock data aggregation
 │   └── types/                    # TypeScript types
 │       └── index.ts              # Shared interfaces
 ├── .env.local                    # Environment variables (create this)
 ├── .env.example                  # Environment template
+├── README.md                     # This file
+├── TRANSACTION_CLEANUP.md        # Transaction refactoring docs
 └── package.json                  # Dependencies
 ```
 
@@ -280,7 +320,21 @@ URL encode them: `@` → `%40`, `#` → `%23`, etc.
 - Clear browser localStorage and try again
 - Check browser console for errors
 
-## 📝 License
+## � Documentation
+
+### Transaction Cleanup Process
+
+For detailed information about the transaction cleanup and refactoring process, see:
+- **[TRANSACTION_CLEANUP.md](./TRANSACTION_CLEANUP.md)** - Complete documentation of:
+  - Transaction model removal and migration
+  - Portfolio calculation changes
+  - API endpoint updates
+  - Type system refactoring
+  - Testing and validation steps
+
+This document provides a comprehensive guide to understanding how the portfolio system evolved from a transaction-based model to a simplified stock-based model.
+
+## �📝 License
 
 This project is open source and available under the MIT License.
 
