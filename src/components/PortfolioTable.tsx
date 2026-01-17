@@ -9,15 +9,15 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { EnhancedStock } from "@/types";
+import { PortfolioTableFiled } from "@/types";
 import { formatCurrency, formatPercent, formatNumber } from "@/lib/utils/calculations";
 import StockLogo from "./StockLogo";
 
 interface Props {
-  stocks: EnhancedStock[];
+  stocks: PortfolioTableFiled[];
 }
 
-type SortField = "symbol" | "date" | null;
+type SortField = "symbol" | "units" | "avgPrice" | "currentPrice" | "totalCost" | "currentValue" | "unrealizedPnl" | "realizedPnl" | "netPnl" | null;
 type SortDirection = "asc" | "desc";
 
 export default function PortfolioTable({ stocks }: Props) {
@@ -56,10 +56,22 @@ export default function PortfolioTable({ stocks }: Props) {
 
     if (sortField === "symbol") {
       comparison = a.symbol.localeCompare(b.symbol);
-    } else if (sortField === "date") {
-      // Assuming stocks have a createdAt or similar field
-      // If not available, we'll sort by symbol as fallback
-      comparison = a.symbol.localeCompare(b.symbol);
+    } else if (sortField === "units") {
+      comparison = a.units - b.units;
+    } else if (sortField === "avgPrice") {
+      comparison = a.avgPrice - b.avgPrice;
+    } else if (sortField === "currentPrice") {
+      comparison = a.currentPrice - b.currentPrice;
+    } else if (sortField === "totalCost") {
+      comparison = a.totalCost - b.totalCost;
+    } else if (sortField === "currentValue") {
+      comparison = a.currentValue - b.currentValue;
+    } else if (sortField === "unrealizedPnl") {
+      comparison = a.unrealizedPnl - b.unrealizedPnl;
+    } else if (sortField === "realizedPnl") {
+      comparison = a.realizedPnl - b.realizedPnl;
+    } else if (sortField === "netPnl") {
+      comparison = a.netPnl - b.netPnl;
     }
 
     return sortDirection === "asc" ? comparison : -comparison;
@@ -99,14 +111,70 @@ export default function PortfolioTable({ stocks }: Props) {
                 <SortIcon field="symbol" />
               </div>
             </th>
-            <th className="px-4 py-3 text-right font-semibold text-gray-900">Units</th>
-            <th className="px-4 py-3 text-right font-semibold text-gray-900">Avg Price</th>
-            <th className="px-4 py-3 text-right font-semibold text-gray-900">Current Price</th>
-            <th className="px-4 py-3 text-right font-semibold text-gray-900">Total Cost</th>
-            <th className="px-4 py-3 text-right font-semibold text-gray-900">Current Value</th>
-            <th className="px-4 py-3 text-right font-semibold text-gray-900">Unrealized P/L</th>
-            <th className="px-4 py-3 text-right font-semibold text-gray-900">Realized P/L</th>
-            <th className="px-4 py-3 text-right font-semibold text-gray-900">Net P/L</th>
+            <th className="px-4 py-3 text-right font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
+                onClick={() => handleSort("units")}
+            >
+              <div className="flex items-center">
+                Units
+                <SortIcon field="units" />
+              </div>
+            </th>
+            <th className="px-4 py-3 text-right font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
+                onClick={() => handleSort("avgPrice")}
+            >
+               <div className="flex items-center">
+                Avg Price
+                <SortIcon field="avgPrice" />
+              </div>
+            </th>
+            <th className="px-4 py-3 text-right font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
+                onClick={() => handleSort("currentPrice")}
+            >
+              <div className="flex items-center">
+                Current Price
+                <SortIcon field="currentPrice" />
+              </div>
+            </th>
+            <th className="px-4 py-3 text-right font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
+                onClick={() => handleSort("totalCost")}
+            >
+              <div className="flex items-center">
+                Total Cost
+                <SortIcon field="totalCost" />
+              </div>
+            </th>
+            <th className="px-4 py-3 text-right font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
+                onClick={() => handleSort("currentValue")}
+            >
+              <div className="flex items-center">
+                Current Value
+                <SortIcon field="currentValue" />
+              </div>
+            </th>
+            <th className="px-4 py-3 text-right font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
+                onClick={() => handleSort("unrealizedPnl")}
+            >
+              <div className="flex items-center">
+                Unrealized P/L
+                <SortIcon field="unrealizedPnl" />
+              </div>
+            </th>
+            <th className="px-4 py-3 text-right font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
+                onClick={() => handleSort("realizedPnl")}
+            >
+              <div className="flex items-center">
+                Realized P/L
+                <SortIcon field="realizedPnl" />
+              </div>
+            </th>
+            <th className="px-4 py-3 text-right font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
+                onClick={() => handleSort("netPnl")}
+            >
+              <div className="flex items-center">
+                Net P/L
+                <SortIcon field="netPnl" />
+              </div>
+            </th>
             <th className="px-4 py-3 text-center font-semibold text-gray-900">Actions</th>
           </tr>
         </thead>

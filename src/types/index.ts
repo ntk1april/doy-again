@@ -38,8 +38,8 @@ export interface PortfolioSummary {
   netPnlPercent: number;
 }
 
-// Enhanced Stock with Calculated Fields
-export interface EnhancedStock extends PortfolioStock {
+// PortfolioTableFiled with Calculated Fields
+export interface PortfolioTableFiled extends PortfolioStock {
   currentPrice: number;
   totalCost: number;
   currentValue: number;
