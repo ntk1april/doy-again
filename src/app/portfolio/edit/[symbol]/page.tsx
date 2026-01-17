@@ -10,7 +10,7 @@ import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import { PortfolioStock, ApiResponse, EnhancedStock } from "@/types";
 import { formatCurrency, formatNumber } from "@/lib/utils/calculations";
-import StockForm, { FormData } from "@/components/StockForm";
+import StockForm, { FormData } from "@/components/AddStockForm";
 import StockLogo from "@/components/StockLogo";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { authFetch } from "@/lib/utils/auth-fetch";
