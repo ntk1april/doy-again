@@ -51,7 +51,12 @@ function AddStockContent() {
         const data: ApiResponse = await response.json();
 
         if (!data.success) {
-          throw new Error(data.error || "Failed to add stock");
+          Swal.fire({
+            title: "Failed to add stock",
+            text: data.error,
+            icon: "error",
+            confirmButtonText: "OK",
+          });
         }
 
         setSuccessMessage(`Successfully added ${formData.units} units of ${formData.symbol}!`);

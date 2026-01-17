@@ -128,16 +128,16 @@ export default function Navbar() {
       } else {
         Swal.fire({
           title: "Failed to add to wishlist",
+          text: data.error,
           icon: "error",
-          draggable: true,
           confirmButtonText: "OK",
         });
       }
     } catch (err) {
       Swal.fire({
         title: "Failed to add to wishlist",
+        text: err instanceof Error ? err.message : "An error occurred",
         icon: "error",
-        draggable: true,
         confirmButtonText: "OK",
       });
     }

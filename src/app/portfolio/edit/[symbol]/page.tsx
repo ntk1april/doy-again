@@ -105,7 +105,12 @@ export default function EditStockPage() {
         const data: ApiResponse = await response.json();
 
         if (!data.success) {
-          throw new Error(data.error || `Failed to ${action.toLowerCase()} stock`);
+          Swal.fire({
+            title: `Failed to ${action.toLowerCase()} stock`,
+            text: data.error,
+            icon: "error",
+            confirmButtonText: "OK",
+          });
         }
 
         if (action === "SELL" && !stock?.units) {
