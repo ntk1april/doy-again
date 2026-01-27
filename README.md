@@ -97,7 +97,7 @@ https://doy-again.vercel.app/
    # MongoDB Connection (Local or Atlas)
    MONGODB_URI=mongodb://localhost:27017/ur-db
    # OR for MongoDB Atlas:
-   # MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/ur-db?retryWrites=true&w=majority
+   # MONGODB_URI=your-mongodb-atlas-uri
 
    # JWT Secret (REQUIRED - Change this!)
    JWT_SECRET=your-super-secret-jwt-key-min-32-characters-long
