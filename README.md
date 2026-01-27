@@ -3,11 +3,13 @@
 A modern, full-stack web application for tracking your stock portfolio with real-time prices, profit/loss calculations, wishlist management, and market news. Built with Next.js, TypeScript, MongoDB, and modern authentication.
 
 # 🚀 Released Version
+
 https://doy-again.vercel.app/
 
 ## ✨ Features
 
 ### 📊 Portfolio Management
+
 - **Real-time Stock Prices** - Integration with Finnhub API
 - **Profit/Loss Tracking** - Automatic calculation of realized and unrealized P/L
 - **Portfolio Summary** - Overview of total investment, current value, and net P/L
@@ -16,6 +18,7 @@ https://doy-again.vercel.app/
 - **Auto-fill Symbol** - Click from stock details to pre-fill add/edit forms
 
 ### ⭐ Wishlist
+
 - **Track Stocks** - Save stocks you're interested in without buying
 - **Add Notes** - Personal notes for each wishlist item
 - **Target Price** - Set your desired entry price
@@ -23,18 +26,21 @@ https://doy-again.vercel.app/
 - **View Details** - Click any stock to see full analysis
 
 ### 💼 Transaction Management
+
 - **Buy/Sell Stocks** - Easy interface for managing your positions
 - **Transaction History** - Complete record of all trades
 - **Time Filters** - View transactions by day, week, month, or all time
 - **Realized P/L Tracking** - See profits/losses from completed trades
 
 ### 📰 Market News
+
 - **Latest News** - Top market news from Finnhub
 - **News Tab** - Dedicated page for authenticated users
 - **Article Cards** - Images, headlines, summaries, and sources
 - **External Links** - Click to read full articles
 
 ### 🔍 Stock Details & Search
+
 - **Comprehensive Analysis** - Company info, metrics, recommendations
 - **Analyst Ratings** - Buy/Hold/Sell recommendations
 - **News Sentiment** - Market sentiment analysis
@@ -43,6 +49,7 @@ https://doy-again.vercel.app/
 - **Public Access** - View stock details without signing in
 
 ### 🔐 User Authentication
+
 - **Modal-based Auth** - Seamless sign in/up without page redirects
 - **JWT Authentication** - Secure token-based auth
 - **Password Security** - Bcrypt hashing with validation
@@ -50,6 +57,7 @@ https://doy-again.vercel.app/
 - **Session Management** - 7-day token expiration
 
 ### 🎨 Modern UI/UX
+
 - **Responsive Design** - Works on desktop, tablet, and mobile
 - **Beautiful Gradients** - Modern blue-purple gradient theme
 - **Interactive Elements** - Hover effects and smooth transitions
@@ -69,52 +77,56 @@ https://doy-again.vercel.app/
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone <your-repo-url>
    cd doy-again
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Set up environment variables**
-   
+
    Create a `.env.local` file in the root directory:
+
    ```env
    # MongoDB Connection (Local or Atlas)
-   MONGODB_URI=mongodb://localhost:27017/doy-again
+   MONGODB_URI=mongodb://localhost:27017/ur-db
    # OR for MongoDB Atlas:
-   # MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/doy-again?retryWrites=true&w=majority
-   
+   # MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/ur-db?retryWrites=true&w=majority
+
    # JWT Secret (REQUIRED - Change this!)
    JWT_SECRET=your-super-secret-jwt-key-min-32-characters-long
-   
+
    # Stock Data APIs (At least one recommended)
    FINNHUB_API_KEY=your_finnhub_api_key_here
    ALPHAVANTAGE_API_KEY=your_alphavantage_api_key_here
    ```
 
 4. **Get API Keys (Optional)**
-   
+
    **Finnhub (Recommended - Primary API):**
    - Visit: https://finnhub.io/register
    - Free tier: 60 calls/minute
    - Fast and reliable
-   
+
    **Alpha Vantage (Fallback API):**
    - Visit: https://www.alphavantage.co/support/#api-key
    - Free tier: 5 calls/minute, 500/day
    - Automatic fallback if Finnhub fails
 
 5. **Run the development server**
+
    ```bash
    npm run dev
    ```
 
 6. **Open your browser**
-   
+
    Navigate to [http://localhost:3000](http://localhost:3000)
 
 ## 📖 Usage
@@ -140,18 +152,21 @@ https://doy-again.vercel.app/
 ### Managing Stocks
 
 **Buy More:**
+
 - Click "Edit" on any stock
 - Select "Buy More"
 - Enter units and price
 - Average price is automatically recalculated
 
 **Sell Stocks:**
+
 - Click "Edit" on any stock
 - Select "Sell"
 - Enter units and sale price
 - Realized P/L is automatically calculated
 
 **View Transaction History:**
+
 - Click "📊 View History" button
 - Filter by time period (Day, Week, Month, All Time)
 - See all buy/sell transactions with P/L
@@ -159,12 +174,14 @@ https://doy-again.vercel.app/
 ## 🏗️ Tech Stack
 
 ### Frontend
+
 - **Next.js 16** - React framework with App Router
 - **TypeScript** - Type-safe development
 - **Tailwind CSS** - Utility-first styling
 - **React Context** - Global state management
 
 ### Backend
+
 - **Next.js API Routes** - Serverless API endpoints
 - **MongoDB** - NoSQL database
 - **Mongoose** - MongoDB ODM
@@ -172,6 +189,7 @@ https://doy-again.vercel.app/
 - **Bcrypt** - Password hashing
 
 ### External APIs
+
 - **Finnhub** - Primary stock data API
 - **Alpha Vantage** - Fallback stock data API
 - **Financial Modeling Prep** - Stock logos CDN
@@ -252,25 +270,33 @@ doy-again/
 ## 🧮 Calculations
 
 ### Average Price
+
 When buying more of an existing stock:
+
 ```
 New Avg Price = (Old Avg Price × Old Units + New Price × New Units) / Total Units
 ```
 
 ### Unrealized P/L
+
 Profit/loss on stocks you still own:
+
 ```
 Unrealized P/L = (Current Price - Average Price) × Units
 ```
 
 ### Realized P/L
+
 Profit/loss from selling stocks:
+
 ```
 Realized P/L = (Sale Price - Average Price) × Units Sold
 ```
 
 ### Net P/L
+
 Total profit/loss:
+
 ```
 Net P/L = Unrealized P/L + Realized P/L
 ```
@@ -298,13 +324,15 @@ The app uses a multi-API approach for reliability:
 ### MongoDB Connection Issues
 
 **Local MongoDB:**
+
 ```env
-MONGODB_URI=mongodb://localhost:27017/doy-again
+MONGODB_URI=mongodb://localhost:27017/ur-db
 ```
 
 **MongoDB Atlas:**
+
 ```env
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/doy-again?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/ur-db?retryWrites=true&w=majority
 ```
 
 **Special Characters in Password:**
@@ -328,6 +356,7 @@ URL encode them: `@` → `%40`, `#` → `%23`, etc.
 ### Transaction Cleanup Process
 
 For detailed information about the transaction cleanup and refactoring process, see:
+
 - **[TRANSACTION_CLEANUP.md](./TRANSACTION_CLEANUP.md)** - Complete documentation of:
   - Transaction model removal and migration
   - Portfolio calculation changes
@@ -354,4 +383,5 @@ Built with ❤️ using Next.js, TypeScript, and MongoDB
 **Happy Trading! 📈**
 
 # 🚀 Let's try and see your money losing 😜
+
 https://doy-again.vercel.app/
