@@ -43,7 +43,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
           // If API fails, use average price as fallback (break-even)
           console.warn(
             `Could not fetch real price for ${stock.symbol}, using average price:`,
-            error instanceof Error ? error.message : error
+            error instanceof Error ? error.message : error,
           );
           currentPrice = stock.avgPrice;
         }
@@ -53,15 +53,14 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         const unrealizedPnl = calculateUnrealizedPnl(
           currentPrice,
           stock.avgPrice,
-          stock.units
+          stock.units,
         );
         const netPnl = calculateNetPnl(unrealizedPnl, stock.realizedPnl);
         const unrealizedPnlPercent =
           stock.avgPrice > 0
             ? ((currentPrice - stock.avgPrice) / stock.avgPrice) * 100
             : 0;
-        const netPnlPercent =
-          totalCost > 0 ? (netPnl / totalCost) * 100 : 0;
+        const netPnlPercent = totalCost > 0 ? (netPnl / totalCost) * 100 : 0;
 
         return {
           ...stock.toObject(),
@@ -74,26 +73,26 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
           netPnlPercent,
           logo: getStockLogo(stock.symbol),
         };
-      })
+      }),
     );
 
     // Calculate portfolio summary
     const summary: PortfolioSummary = {
       totalInvested: portfolioTableFiled.reduce(
         (sum, stock) => sum + stock.totalCost,
-        0
+        0,
       ),
       currentValue: portfolioTableFiled.reduce(
         (sum, stock) => sum + stock.currentValue,
-        0
+        0,
       ),
       unrealizedPnl: portfolioTableFiled.reduce(
         (sum, stock) => sum + stock.unrealizedPnl,
-        0
+        0,
       ),
       realizedPnl: portfolioTableFiled.reduce(
         (sum, stock) => sum + stock.realizedPnl,
-        0
+        0,
       ),
       netPnl: portfolioTableFiled.reduce((sum, stock) => sum + stock.netPnl, 0),
       netPnlPercent: 0,
@@ -101,8 +100,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     // Calculate net P/L percentage
     if (summary.totalInvested > 0) {
-      summary.netPnlPercent =
-        (summary.netPnl / summary.totalInvested) * 100;
+      summary.netPnlPercent = (summary.netPnl / summary.totalInvested) * 100;
     }
 
     return NextResponse.json(
@@ -110,16 +108,16 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         success: true,
         data: { stocks: portfolioTableFiled, summary },
       } as ApiResponse,
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Error fetching portfolio stocks:", error);
     return NextResponse.json(
       {
         success: false,
-        error: "Failed to fetch portfolio stocks",
+        error: "session expired pls login again",
       } as ApiResponse,
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -143,7 +141,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
           success: false,
           error: "Missing required fields: symbol, units, buyPrice",
         } as ApiResponse,
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -163,7 +161,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         existingStock.units,
         existingStock.avgPrice,
         units,
-        buyPrice
+        buyPrice,
       );
 
       existingStock.units += units;
@@ -197,7 +195,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         success: true,
         data: updatedStock,
       } as ApiResponse,
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     console.error("Error adding/buying stock:", error);
@@ -206,7 +204,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         success: false,
         error: "Failed to add/buy stock",
       } as ApiResponse,
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

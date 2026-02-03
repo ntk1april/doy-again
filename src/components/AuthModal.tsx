@@ -67,8 +67,8 @@ export default function AuthModal({ isOpen, onClose, initialMode = "signin" }: A
             </h2>
             <p className="text-gray-600">
               {mode === "signin"
-                ? "Sign in to continue to Doy Again"
-                : "Join Doy Again to track your investments"}
+                ? "Sign in to continue to Doi Again"
+                : "Join Doi Again to track your investments"}
             </p>
           </div>
 

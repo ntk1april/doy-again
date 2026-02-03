@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Doy Again | Stock Portfolio Tracker",
+  title: "Doi  Again | Stock Portfolio Tracker",
   description: "Track your stock portfolio with real-time profit/loss calculations",
 };
 

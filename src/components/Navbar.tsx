@@ -174,7 +174,7 @@ export default function Navbar() {
           <div className="flex items-center gap-8">
             <Link href={user ? "/portfolio" : "/"} className="flex items-center gap-2">
               <div className="text-2xl font-bold text-white">📉</div>
-              <span className="text-xl font-bold text-white hidden sm:block">Doy Again</span>
+              <span className="text-xl font-bold text-white hidden sm:block">Doi Again</span>
             </Link>
 
             {/* Navigation Links - Only for authenticated users */}

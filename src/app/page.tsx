@@ -92,7 +92,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-              📉 Doy Again
+              📉 Doi Again
             </h1>
             <p className="text-xl md:text-2xl text-gray-700 mb-8 max-w-3xl mx-auto">
               If you happy in your whole day and you want to see something like red color to make you down, you can use this app
@@ -222,7 +222,7 @@ export default function HomePage() {
             📉 Are you ready to see red color?
           </h2>
           <p className="text-xl text-white/90 mb-8">
-            Join with one of all investors who never see green color in his life like me, with Doy Again
+            Join with one of all investors who never see green color in his life like me, with Doi Again
           </p>
           <button
             onClick={() => {
